@@ -1,4 +1,5 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { Product } from 'src/products/entities/product.entity';
+import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
 
 @Entity({ name: 'users' })
 export class User {
@@ -14,6 +15,9 @@ export class User {
   @Column()
   password: string;
 
-  @Column()
-  admin: boolean;
+  @Column({ default: false })
+  isAdmin: boolean;
+
+  // @OneToMany(() => Product, (product) => product.admin)
+  // products: Product[];
 }

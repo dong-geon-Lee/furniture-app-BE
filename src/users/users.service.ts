@@ -8,8 +8,8 @@ import { Repository } from 'typeorm';
 export class UsersService {
   constructor(@InjectRepository(User) private repo: Repository<User>) {}
 
-  create(email: string, password: string) {
-    const user = this.repo.create({ email, password });
+  create(name: string, email: string, password: string) {
+    const user = this.repo.create({ name, email, password });
     return this.repo.save(user);
   }
 

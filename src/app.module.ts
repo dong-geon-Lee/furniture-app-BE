@@ -1,10 +1,11 @@
 import { Module, ValidationPipe } from '@nestjs/common';
-import { UploadModule } from './upload/upload.module';
+import { UploadModule } from './uploads/upload.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { UsersModule } from './users/users.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { join } from 'path';
 import { APP_PIPE } from '@nestjs/core';
+import { ProductsModule } from './products/products.module';
 
 @Module({
   imports: [
@@ -25,6 +26,7 @@ import { APP_PIPE } from '@nestjs/core';
     }),
     UploadModule,
     UsersModule,
+    ProductsModule,
   ],
   providers: [
     { provide: APP_PIPE, useValue: new ValidationPipe({ whitelist: true }) },

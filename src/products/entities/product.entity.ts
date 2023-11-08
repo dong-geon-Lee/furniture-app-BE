@@ -13,11 +13,22 @@ export class Product {
   description: string;
 
   @Column()
-  price: number;
+  price: string;
 
   @Column()
   imageURL: string;
 
+  @Column()
+  category: string;
+
+  @ManyToOne(() => User, (user) => user.products)
+  admin: User;
+
+  // @Column()
+  // imageKey: string;
+
+  // @Column()
+  // imageBuffer: string;
   // @ManyToOne(() => User, (user) => user.products)
   // admin: User;
 }

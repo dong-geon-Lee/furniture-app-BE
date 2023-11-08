@@ -1,3 +1,4 @@
+// import { Product } from 'src/products/entities/product.entity';
 import { Product } from 'src/products/entities/product.entity';
 import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
 
@@ -20,4 +21,7 @@ export class User {
 
   // @OneToMany(() => Product, (product) => product.admin)
   // products: Product[];
+
+  @OneToMany(() => Product, (product) => product.admin)
+  products: Product[];
 }

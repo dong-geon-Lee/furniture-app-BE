@@ -15,7 +15,7 @@ export class UploadService {
   constructor(private readonly configService: ConfigService) {}
 
   async upload(fileName: string, file: Buffer) {
-    await this.s3Client.send(
+    const response = await this.s3Client.send(
       new PutObjectCommand({
         Bucket: this.configService.get('AWS_S3_BUCKET'),
         Key: fileName,
@@ -24,7 +24,7 @@ export class UploadService {
       }),
     );
 
-    return '이미지가 업로드되었습니다';
+    return response;
   }
 
   async getImageList() {
@@ -33,6 +33,8 @@ export class UploadService {
         Bucket: this.configService.get('AWS_S3_BUCKET'),
       }),
     );
+
+    console.log(response);
 
     const bucketUrl = this.configService.get('AWS_SC_URL');
     const imageList = response.Contents.map((object: any) => ({

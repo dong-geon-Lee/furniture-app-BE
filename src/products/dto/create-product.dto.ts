@@ -1,19 +1,18 @@
-import { IsNumber, IsString } from 'class-validator';
-import { PrimaryGeneratedColumn } from 'typeorm';
+import { IsString, IsUrl } from 'class-validator';
 
 export class CreateProductDto {
-  @PrimaryGeneratedColumn()
-  id: number;
-
   @IsString()
   name: string;
 
   @IsString()
   description: string;
 
-  @IsNumber()
-  price: number;
+  @IsString()
+  price: string;
+
+  @IsUrl()
+  imageURL: string;
 
   @IsString()
-  imageURL: string;
+  category: string;
 }

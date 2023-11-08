@@ -13,12 +13,13 @@ export class ProductsController {
       body.description,
       body.price,
       body.imageURL,
+      body.category,
     );
   }
 
   @Get()
-  findAll(@Body() name: string) {
-    return this.productsService.findAll(name);
+  findAll() {
+    return this.productsService.findAll();
   }
 
   @Get(':id')

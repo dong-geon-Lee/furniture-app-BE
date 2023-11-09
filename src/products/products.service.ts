@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Product } from './entities/product.entity';
 import { Repository } from 'typeorm';
@@ -21,7 +21,7 @@ export class ProductsService {
       imageURL,
       category,
     });
-    console.log(product);
+
     return this.repo.save(product);
   }
 
@@ -32,5 +32,18 @@ export class ProductsService {
   findOne(id: number) {
     if (!id) return null;
     return this.repo.findOne({ where: { id } });
+  }
+
+  async update(id: number, body: any) {
+    const product = await this.findOne(id);
+    if (!product) throw new NotFoundException('제품을 찾을 수 없습니다');
+    Object.assign(product, body);
+    return this.repo.save(product);
+  }
+
+  async remove(id: number) {
+    const product = await this.findOne(id);
+    if (!product) throw new NotFoundException(`존재하지않는 id:${id}`);
+    return this.repo.remove(product);
   }
 }

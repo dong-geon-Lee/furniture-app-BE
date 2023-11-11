@@ -9,15 +9,14 @@ import {
 } from '@nestjs/common';
 import { CartsService } from './carts.service';
 import { CreateCartDto } from './dto/create-cart.dto';
-import { UpdateCartDto } from './dto/update-cart.dto';
 
 @Controller('carts')
 export class CartsController {
   constructor(private readonly cartsService: CartsService) {}
 
   @Post()
-  create(@Body() createCartDto: CreateCartDto) {
-    return this.cartsService.create(createCartDto);
+  create(@Body() body: CreateCartDto) {
+    return this.cartsService.create(body);
   }
 
   @Get()
@@ -31,8 +30,8 @@ export class CartsController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateCartDto: UpdateCartDto) {
-    return this.cartsService.update(+id, updateCartDto);
+  update(@Param('id') id: string, @Body() quantity: number) {
+    return this.cartsService.update(+id, quantity);
   }
 
   @Delete(':id')

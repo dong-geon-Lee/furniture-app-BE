@@ -1,26 +1,65 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateCartDto } from './dto/create-cart.dto';
-import { UpdateCartDto } from './dto/update-cart.dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Cart } from './entities/cart.entity';
+import { Repository } from 'typeorm';
+import { User } from 'src/users/entities/user.entity';
+import { Product } from 'src/products/entities/product.entity';
 
 @Injectable()
 export class CartsService {
-  create(createCartDto: CreateCartDto) {
-    return 'This action adds a new cart';
+  constructor(
+    @InjectRepository(Cart) private cartRepo: Repository<Cart>,
+    @InjectRepository(User) private userRepo: Repository<User>,
+    @InjectRepository(Product) private productRepo: Repository<Product>,
+  ) {}
+
+  async create(body: CreateCartDto) {
+    const { userId, productId, quantity } = body;
+
+    const user = await this.userRepo.findOne({ where: { id: userId } });
+    if (!user) {
+      throw new NotFoundException(`유저 ID "${userId}"가 존재하지않습니다`);
+    }
+
+    const product = await this.productRepo.findOne({
+      where: { id: productId },
+    });
+    if (!product) {
+      throw new NotFoundException(`제품 ID "${productId}"가 존재하지않습니다`);
+    }
+
+    const cart = this.cartRepo.create({
+      user,
+      product,
+      quantity,
+    });
+
+    return this.cartRepo.save(cart);
   }
 
   findAll() {
-    return `This action returns all carts`;
+    return this.cartRepo.find({ relations: ['user', 'product'] });
   }
 
   findOne(id: number) {
-    return `This action returns a #${id} cart`;
+    return this.cartRepo.findOne({
+      where: { id },
+      relations: ['user', 'product'],
+    });
   }
 
-  update(id: number, updateCartDto: UpdateCartDto) {
-    return `This action updates a #${id} cart`;
+  async update(id: number, quantity: number) {
+    const cart = await this.cartRepo.findOne({
+      where: { id },
+      relations: ['user', 'product'],
+    });
+    if (!cart) throw new NotFoundException('존재하지않는 카트입니다');
+    Object.assign(cart, quantity);
+    return this.cartRepo.save(cart);
   }
 
   remove(id: number) {
-    return `This action removes a #${id} cart`;
+    return this.cartRepo.delete(id);
   }
 }

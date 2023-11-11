@@ -1,5 +1,12 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from 'typeorm';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  ManyToOne,
+  OneToMany,
+} from 'typeorm';
 import { User } from 'src/users/entities/user.entity';
+import { Cart } from 'src/carts/entities/cart.entity';
 
 @Entity({ name: 'products' })
 export class Product {
@@ -24,11 +31,6 @@ export class Product {
   @ManyToOne(() => User, (user) => user.products)
   admin: User;
 
-  // @Column()
-  // imageKey: string;
-
-  // @Column()
-  // imageBuffer: string;
-  // @ManyToOne(() => User, (user) => user.products)
-  // admin: User;
+  @OneToMany(() => Cart, (cart) => cart.product)
+  carts: Cart[];
 }

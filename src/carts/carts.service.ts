@@ -49,17 +49,18 @@ export class CartsService {
     });
   }
 
-  async update(id: number, quantity: number) {
+  async update(id: number, body: number) {
     const cart = await this.cartRepo.findOne({
       where: { id },
       relations: ['user', 'product'],
     });
+
     if (!cart) throw new NotFoundException('존재하지않는 카트입니다');
-    Object.assign(cart, quantity);
+    Object.assign(cart, body);
     return this.cartRepo.save(cart);
   }
 
-  remove(id: number) {
-    return this.cartRepo.delete(id);
+  async remove(id: number) {
+    return await this.cartRepo.delete(id);
   }
 }

@@ -30,8 +30,8 @@ export class CartsController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() quantity: number) {
-    return this.cartsService.update(+id, quantity);
+  update(@Param('id') id: string, @Body() body: any) {
+    return this.cartsService.update(+id, body);
   }
 
   @Delete(':id')

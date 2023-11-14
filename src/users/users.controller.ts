@@ -1,7 +1,16 @@
-import { Controller, Get, Post, Body, Param, Query } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Param,
+  Query,
+  UseGuards,
+} from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { AuthService } from './auth.service';
+import { JwtAuthGuard, RolesGuard } from 'src/guards/auth.guard';
 
 @Controller('users')
 export class UsersController {
@@ -17,10 +26,12 @@ export class UsersController {
 
   @Post('/signin')
   async signIn(@Body() body: CreateUserDto) {
-    return await this.authService.signIn(body.email, body.password);
+    const user = await this.authService.signIn(body.email, body.password);
+    return user;
   }
 
   @Get()
+  @UseGuards(JwtAuthGuard, RolesGuard)
   findAll(@Query('email') email: string) {
     return this.usersService.findAll(email);
   }

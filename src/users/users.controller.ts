@@ -6,6 +6,8 @@ import {
   Param,
   Query,
   UseGuards,
+  Patch,
+  Delete,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -13,6 +15,7 @@ import { AuthService } from './auth.service';
 import { JwtAuthGuard, RolesGuard } from 'src/guards/auth.guard';
 import { Serialize } from 'src/interceptors/serialize.interceptor';
 import { UserDto } from './dto/user.dto';
+import { UpdateUserDto } from './dto/update-user.dto';
 
 @Controller('users')
 @Serialize(UserDto)
@@ -45,13 +48,15 @@ export class UsersController {
     return this.usersService.findOne(+id);
   }
 
-  // @Patch(':id')
-  // update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
-  //   return this.usersService.update(+id, updateUserDto);
-  // }
+  @Patch(':id')
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  update(@Param('id') id: string, @Body() body: UpdateUserDto) {
+    return this.usersService.update(+id, body);
+  }
 
-  // @Delete(':id')
-  // remove(@Param('id') id: string) {
-  //   return this.usersService.remove(+id);
-  // }
+  @Delete(':id')
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  remove(@Param('id') id: string) {
+    return this.usersService.remove(+id);
+  }
 }

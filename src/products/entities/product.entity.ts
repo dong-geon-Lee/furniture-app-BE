@@ -20,7 +20,7 @@ export class Product {
   description: string;
 
   @Column()
-  price: string;
+  price: number;
 
   @Column()
   imageURL: string;

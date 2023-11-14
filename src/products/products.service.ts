@@ -2,24 +2,19 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Product } from './entities/product.entity';
 import { Repository } from 'typeorm';
+import { CreateProductDto } from './dto/create-product.dto';
 
 @Injectable()
 export class ProductsService {
   constructor(@InjectRepository(Product) private repo: Repository<Product>) {}
 
-  create(
-    name: string,
-    description: string,
-    price: string,
-    imageURL: string,
-    category: string,
-  ) {
+  create(body: CreateProductDto) {
     const product = this.repo.create({
-      name,
-      description,
-      price,
-      imageURL,
-      category,
+      name: body.name,
+      description: body.description,
+      price: body.price,
+      imageURL: body.imageURL,
+      category: body.category,
     });
 
     return this.repo.save(product);

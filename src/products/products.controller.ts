@@ -10,20 +10,17 @@ import {
 } from '@nestjs/common';
 import { ProductsService } from './products.service';
 import { CreateProductDto } from './dto/create-product.dto';
+import { Serialize } from 'src/interceptors/serialize.interceptor';
+import { ProductDto } from './dto/product.dto';
 
 @Controller('products')
+@Serialize(ProductDto)
 export class ProductsController {
   constructor(private readonly productsService: ProductsService) {}
 
   @Post()
   create(@Body() body: CreateProductDto) {
-    return this.productsService.create(
-      body.name,
-      body.description,
-      body.price,
-      body.imageURL,
-      body.category,
-    );
+    return this.productsService.create(body);
   }
 
   @Get()

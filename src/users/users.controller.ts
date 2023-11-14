@@ -19,15 +19,15 @@ export class UsersController {
     private readonly authService: AuthService,
   ) {}
 
-  @Post('/signup')
-  async signUp(@Body() body: CreateUserDto) {
-    return this.authService.signUp(body.name, body.email, body.password);
-  }
-
   @Post('/signin')
   async signIn(@Body() body: CreateUserDto) {
     const user = await this.authService.signIn(body.email, body.password);
     return user;
+  }
+
+  @Post('/signup')
+  async signUp(@Body() body: CreateUserDto) {
+    return this.authService.signUp(body.name, body.email, body.password);
   }
 
   @Get()
@@ -37,6 +37,7 @@ export class UsersController {
   }
 
   @Get(':id')
+  @UseGuards(JwtAuthGuard, RolesGuard)
   findOne(@Param('id') id: string) {
     return this.usersService.findOne(+id);
   }

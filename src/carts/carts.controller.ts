@@ -9,8 +9,11 @@ import {
 } from '@nestjs/common';
 import { CartsService } from './carts.service';
 import { CreateCartDto } from './dto/create-cart.dto';
+import { Serialize } from 'src/interceptors/serialize.interceptor';
+import { CartDto } from './dto/cart.dto';
 
 @Controller('carts')
+@Serialize(CartDto)
 export class CartsController {
   constructor(private readonly cartsService: CartsService) {}
 

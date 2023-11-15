@@ -6,16 +6,25 @@ import {
   Patch,
   Param,
   Delete,
+  UseGuards,
+  Request,
 } from '@nestjs/common';
 import { CartsService } from './carts.service';
 import { CreateCartDto } from './dto/create-cart.dto';
 import { Serialize } from 'src/interceptors/serialize.interceptor';
 import { CartDto } from './dto/cart.dto';
+import { JwtAuthGuard, RolesGuard } from 'src/guards/auth.guard';
 
 @Controller('carts')
 @Serialize(CartDto)
 export class CartsController {
   constructor(private readonly cartsService: CartsService) {}
+
+  @Get('me')
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  find(@Request() req) {
+    return this.cartsService.findOne(req.user.userId);
+  }
 
   @Post()
   create(@Body() body: CreateCartDto) {

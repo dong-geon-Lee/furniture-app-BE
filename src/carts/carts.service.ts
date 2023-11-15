@@ -43,8 +43,8 @@ export class CartsService {
   }
 
   findOne(id: number) {
-    return this.cartRepo.findOne({
-      where: { id },
+    return this.cartRepo.find({
+      where: { user: { id } },
       relations: ['user', 'product'],
     });
   }

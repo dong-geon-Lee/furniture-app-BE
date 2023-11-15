@@ -7,10 +7,11 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from 'src/users/entities/user.entity';
 import { ProductsService } from 'src/products/products.service';
 import { Product } from 'src/products/entities/product.entity';
+import { JwtStrategy } from 'src/users/jwt.strategy';
 
 @Module({
   imports: [TypeOrmModule.forFeature([Cart, User, Product])],
   controllers: [CartsController],
-  providers: [CartsService, UsersService, ProductsService],
+  providers: [CartsService, UsersService, ProductsService, JwtStrategy],
 })
 export class CartsModule {}

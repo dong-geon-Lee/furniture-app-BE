@@ -8,6 +8,7 @@ import {
   UseGuards,
   Patch,
   Delete,
+  Request,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -37,15 +38,14 @@ export class UsersController {
   }
 
   @Get()
-  @UseGuards(JwtAuthGuard, RolesGuard)
   findAll(@Query('email') email: string) {
     return this.usersService.findAll(email);
   }
 
-  @Get(':id')
+  @Get('me')
   @UseGuards(JwtAuthGuard, RolesGuard)
-  findOne(@Param('id') id: string) {
-    return this.usersService.findOne(+id);
+  find(@Request() req) {
+    return this.usersService.findOne(req.user.userId);
   }
 
   @Patch(':id')

@@ -7,6 +7,7 @@ import { join } from 'path';
 import { APP_PIPE } from '@nestjs/core';
 import { ProductsModule } from './products/products.module';
 import { CartsModule } from './carts/carts.module';
+import { ShippingsModule } from './shippings/shippings.module';
 
 @Module({
   imports: [
@@ -29,6 +30,7 @@ import { CartsModule } from './carts/carts.module';
     UsersModule,
     ProductsModule,
     CartsModule,
+    ShippingsModule,
   ],
   providers: [
     { provide: APP_PIPE, useValue: new ValidationPipe({ whitelist: true }) },

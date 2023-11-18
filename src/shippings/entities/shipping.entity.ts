@@ -1,4 +1,11 @@
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
+import { User } from 'src/users/entities/user.entity';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  OneToOne,
+  JoinColumn,
+} from 'typeorm';
 
 @Entity({ name: 'shippings' })
 export class Shipping {
@@ -31,4 +38,8 @@ export class Shipping {
 
   @Column({ name: 'product_total' })
   productTotal: number;
+
+  @OneToOne(() => User, (user) => user.shippings)
+  @JoinColumn({ name: 'userId' })
+  user: User;
 }

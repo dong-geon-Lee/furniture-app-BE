@@ -40,7 +40,7 @@ export class ShippingsService {
   }
 
   findOne(id: number) {
-    return this.repo.find({
+    return this.repo.findOne({
       where: { user: { id } },
       relations: ['user'],
     });

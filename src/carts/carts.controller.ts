@@ -50,4 +50,10 @@ export class CartsController {
   remove(@Param('id') id: string) {
     return this.cartsService.remove(+id);
   }
+
+  @Delete('me/:id')
+  @UseGuards(JwtAuthGuard, RolesGuard)
+  removeAll(@Param('id') id: string) {
+    return this.cartsService.removeAll(+id);
+  }
 }

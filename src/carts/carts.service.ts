@@ -63,4 +63,17 @@ export class CartsService {
   async remove(id: number) {
     return await this.cartRepo.delete(id);
   }
+
+  async removeAll(id: number) {
+    const carts = await this.cartRepo.find({
+      where: { user: { id } },
+      relations: ['user', 'product'],
+    });
+
+    if (carts.length === 0) return;
+
+    console.log(id);
+    console.log(carts);
+    await this.cartRepo.remove(carts);
+  }
 }

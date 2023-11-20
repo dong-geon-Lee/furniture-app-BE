@@ -8,6 +8,7 @@ import { APP_PIPE } from '@nestjs/core';
 import { ProductsModule } from './products/products.module';
 import { CartsModule } from './carts/carts.module';
 import { ShippingsModule } from './shippings/shippings.module';
+import { OrdersModule } from './orders/orders.module';
 
 @Module({
   imports: [
@@ -31,6 +32,7 @@ import { ShippingsModule } from './shippings/shippings.module';
     ProductsModule,
     CartsModule,
     ShippingsModule,
+    OrdersModule,
   ],
   providers: [
     { provide: APP_PIPE, useValue: new ValidationPipe({ whitelist: true }) },

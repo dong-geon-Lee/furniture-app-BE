@@ -9,6 +9,7 @@ import { ProductsModule } from './products/products.module';
 import { CartsModule } from './carts/carts.module';
 import { ShippingsModule } from './shippings/shippings.module';
 import { OrdersModule } from './orders/orders.module';
+import { OrderDetailsModule } from './order_details/order_details.module';
 
 @Module({
   imports: [
@@ -33,6 +34,7 @@ import { OrdersModule } from './orders/orders.module';
     CartsModule,
     ShippingsModule,
     OrdersModule,
+    OrderDetailsModule,
   ],
   providers: [
     { provide: APP_PIPE, useValue: new ValidationPipe({ whitelist: true }) },

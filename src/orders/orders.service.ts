@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateOrderDto } from './dto/create-order.dto';
 import { UpdateOrderDto } from './dto/update-order.dto';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -35,7 +35,7 @@ export class OrdersService {
   }
 
   findAll() {
-    return `This action returns all orders`;
+    return this.repo.find({ relations: ['user'] });
   }
 
   findOne(id: number) {
@@ -49,7 +49,9 @@ export class OrdersService {
     return `This action updates a #${id} order`;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} order`;
+  async remove(id: number) {
+    const orders = await this.repo.findOne({ where: { id } });
+    if (!orders) throw new NotFoundException(`존재하지않는 id:${id}`);
+    return this.repo.remove(orders);
   }
 }

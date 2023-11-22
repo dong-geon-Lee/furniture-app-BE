@@ -1,3 +1,4 @@
+import { OrderDetail } from 'src/order_details/entities/order_detail.entity';
 import { User } from 'src/users/entities/user.entity';
 import {
   Column,
@@ -51,4 +52,8 @@ export class Order {
   @ManyToOne(() => User, (user) => user.orders)
   @JoinColumn({ name: 'userId' })
   user: User;
+
+  @ManyToOne(() => OrderDetail, (orderDetail) => orderDetail.order)
+  @JoinColumn({ name: 'orderDetails' })
+  orderDetails: OrderDetail[];
 }
